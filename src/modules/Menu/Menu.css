@@ -1,0 +1,20 @@
+.ButtonMenuModules {
+    min-width: 15vh;
+    max-width: 15vh;
+    max-height: 10vh;
+    min-height: 5vh;
+    border-radius: 1vh;
+    margin: 1vh;
+}
+.ButtonMenuExit {
+    min-width: 15vh;
+    max-width: 15vh;
+    max-height: 10vh;
+    min-height: 5vh;
+    border-radius: 1vh;
+    margin: 1vh;
+}
+
+.ButtonMenuExit:hover {
+    background-color: brown;
+}

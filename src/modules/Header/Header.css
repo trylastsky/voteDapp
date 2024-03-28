@@ -1,0 +1,70 @@
+.Header {
+display: flex;
+border-bottom: 2px solid seagreen;
+}
+
+
+.LogoBut {
+    background-color: #242424;
+    min-width: 5vh;
+    min-height: 5vh;
+    margin-right: auto;
+    font-size: 5vh;
+    font-weight: 2vh;
+    margin-left: 1vh;
+    margin-top: 1vh;
+}
+
+.LogoBut:hover {
+    border-color: #242424;
+}
+
+.Logo {
+    min-width: 5vh;
+    min-height: 5vh;
+    margin-right: auto;
+    font-size: 5vh;
+    font-weight: 2vh;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.ButtonMenu {
+    background-color: #242424;
+    margin-left: auto;
+    max-width: 7vh;
+    max-height: 10vh;
+    margin-right: 1vh;
+    border-radius: 0,5;
+}
+
+.Menu {
+    max-width: 7vh;
+    max-height: 10vh;
+    margin-left: auto;
+    margin-right: 0,5vh;
+}
+
+.MenuModules {
+    display: flex;
+    flex-direction: column;
+}
+
+.caseUserAvatar {
+    display: flex;
+    margin-left:auto;
+}
+
+.UserAvatar {
+    min-width: 7vh;
+    max-width: 7vh;
+    max-height: 7vh;
+    min-height: 7vh;
+    border-radius: 5vh;
+
+}
+
+.butUserAvatar {
+    background-color: #242424;
+    border-radius: 5vh;
+}
