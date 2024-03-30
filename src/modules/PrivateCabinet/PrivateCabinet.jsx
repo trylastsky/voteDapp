@@ -1,8 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./PrivateCabinet.css";
+import { ethers } from "ethers";
 
-export default function PrivateCabinet({ userAvatar, setUserAvatar }) {
+
+export default function PrivateCabinet({
+	signer,
+	userAvatar,
+	setUserAvatar }) {
 	const [voteType, setVoteType] = useState(true); //Задаем состояние созданых опросов/ петиций(true-vote,false-petition)
+	// const [userAdr, setUserAdr] = useState();
+
+		// useEffect(() => {
+		// 	const adr = async () => {
+		// 		let adr = ethers.getAccountPath(signer)
+		// 		setUserAdr(adr)
+		// 	}
+		// 	adr()
+		// }, [])
 
 	return (
 		<>
@@ -16,7 +30,7 @@ export default function PrivateCabinet({ userAvatar, setUserAvatar }) {
 							alt="ваш аватар"
 						/>
 					</button>
-					<h1>ваш никнейм</h1>
+					<h1>Ваше имя</h1>
 					<h3>ваше описание</h3>
 					<h4>ваше время регистрации</h4>
 					<h4>userId</h4>
@@ -37,6 +51,9 @@ export default function PrivateCabinet({ userAvatar, setUserAvatar }) {
 								>
 									К Петициям
 								</button>
+								<button className="ChangeButtonVotes" onClick={() => {
+									
+								}}>Добавить Голосование</button>
 							</>
 						) : (
 							<>
@@ -48,6 +65,7 @@ export default function PrivateCabinet({ userAvatar, setUserAvatar }) {
 								>
 									К Голосованиям
 								</button>
+								<button className="ChangeButtonPetitions">Добавить Петицию</button>
 							</>
 						)}
 					</div>

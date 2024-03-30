@@ -38,7 +38,7 @@ struct Petition { // структура петиции
     uint votes; //голоса , подписи петиции
 }
 
-mapping(address => bool) regStatusMap;//маппинг для уточнения статуса регистрации в системе
+
 mapping(address => uint) userIdMap; // маппинг адрес => id пользователя в системе
 mapping(uint => User) userMap; //мапа для вытаскивания юзера по айди
 mapping(uint => Candidate) candidatsMap; //массив id голосования => его кандидаты
@@ -58,19 +58,10 @@ require(msg.sender.balance >= msg.value, "no money no funny");
 _;
 }
 
-modifier checkReg(bool _bool) { //проверка статуса регистрации
-    if (_bool == true) {
-        require(regStatusMap[msg.sender] == true, "user not reg!");
-    } else if(_bool == false) {
-        require(regStatusMap[msg.sender] == false, "user already reg!");
-    } 
-_;
-}
 
 constructor() {
     owner = payable(msg.sender); // deployer владелец
     userIdMap[msg.sender] = usersCount;
-    regStatusMap[msg.sender] = true;
     userIdMap[msg.sender] = usersCount;// назначаем айди пользователю
     userMap[userIdMap[msg.sender]] = User( // назначаем по айдишнику структуру
         userIdMap[msg.sender], //айди пользователя
@@ -78,25 +69,10 @@ constructor() {
         "I'm owner this system UAHAHA", // описание пользователя
         block.timestamp // время регистрации в системе
     );
-    usersCount++; // колво пользователей ++
 }
 
-function reg( //функция регистрации в системе
-    string memory _name, //имя пользователя
-    string memory _description //описание пользователя
-) public checkAdr0() checkReg(false) { 
-    userIdMap[msg.sender] = usersCount;// назначаем айди пользователю
-    userMap[userIdMap[msg.sender]] = User( // назначаем по айдишнику структуру
-        userIdMap[msg.sender], //айди пользователя
-        _name, // имя пользователя
-        _description, // описание пользователя
-        block.timestamp // время регистрации в системе
-    );
-    regStatusMap[msg.sender] = true; //статус регистрации true
-    usersCount++; //общее колво пользователей увеличивается
-}
 
-function autoTh() public view checkReg(true) returns (User memory) {
+function autoTh() public view returns (User memory) {
     return(userMap[userIdMap[msg.sender]]);
 }
 
@@ -106,7 +82,7 @@ function addVote( //функция добавить голосование
     uint _timeToJoin, //колво минут , за которое могут регистрироватся кандидаты
     uint _daysToVote // время голосования, в минутах (test)
     ) 
-    public checkReg(true) { 
+    public  { 
         votesMas.push(Vote( //пушим в массив структуру голосования
         userIdMap[msg.sender], //достаем от отправителя его айди
         votesMas.length, //айди голосования
@@ -118,7 +94,25 @@ function addVote( //функция добавить голосование
         ));
 }
 
-function addCandidate(uint idVote) public checkReg(true) {
+function addPetition( //функция добавить голосование
+    string memory _name,
+    string memory _description,
+    uint _daysToVote // время голосования, в минутах (test)
+    ) 
+    public  { //добавляем петицию
+        petitionsMas.push(Petition( //пушим в массив структурупетиции
+        userIdMap[msg.sender], //достаем от отправителя его айди
+        petitionsMas.length, //айди петиции
+        _name, //название петиции
+        _description, // описание петиции
+        block.timestamp, // время начала петиции
+        block.timestamp + _daysToVote * 60, // время голосования в минутах test
+        0 //количество голосов 0 иначе побьют
+        ));
+}
+
+
+function addCandidate(uint idVote) public  {
     // require(votesMas[idVote] <= votesMas.length,"this poll not found");
 
 }

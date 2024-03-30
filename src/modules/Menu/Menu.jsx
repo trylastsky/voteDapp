@@ -1,6 +1,14 @@
 import "./Menu.css";
+import { ethers } from "ethers";
 
-export default function Menu({ privateCabStatus, setPrivateCabStatus }) {
+export default function Menu({
+	setSigner,
+	setProvider,
+	privateCabStatus,
+	setMenuStatus,
+	setPrivateCabStatus,
+	// setRegStatus 
+}) {
 	return (
 		<>
 			<div className="MenuModules"></div>
@@ -8,6 +16,8 @@ export default function Menu({ privateCabStatus, setPrivateCabStatus }) {
 				className="ButtonMenuModules"
 				onClick={() => {
 					setPrivateCabStatus(false);
+					// setRegStatus(false);
+					setMenuStatus(false)
 				}}
 			>
 				На Главную
@@ -15,7 +25,11 @@ export default function Menu({ privateCabStatus, setPrivateCabStatus }) {
 			{privateCabStatus && (
 				<>
 					<div className="exitContainer">
-						<button className="ButtonMenuExit">Выход из Аккаунта</button>
+						<button className="ButtonMenuExit" onClick={() => {
+							setSigner(null)
+							setProvider(null)
+							window.location.reload()
+						}}>Выход из Аккаунта</button>
 					</div>
 				</>
 			)}

@@ -1,0 +1,31 @@
+.VoteContainer {
+    margin: 1vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+    max-width: 50vh;
+    min-width: 50vh;
+    min-height: 50vh;
+    padding: 2vh;
+    border-radius: 1vh;
+}
+
+.nameVote {
+    font-size: 5vh;
+}
+
+.descriptionVote {
+    font-size: 2vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 50vh;
+    
+}
+
+#candidatsH2 {
+    border-bottom: 1px dashed seagreen;
+}
+
+#naddo {
+    margin-bottom: 5vh;
+}

@@ -3,3 +3,13 @@
   max-height: 100%;
   margin: 0 auto;
 }
+
+.VotePage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column: 1fr 1fr 1fr;
+  margin: 1vh;
+  min-width: 20vh;
+  max-width: 100%;
+  max-height: none;
+}

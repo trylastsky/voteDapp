@@ -1,0 +1,46 @@
+.CandidateContainer {
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px groove seagreen;
+}
+
+.CandidateContainer > img {
+    max-width: 7vh;
+}
+
+.ave{
+    display: flex;
+    max-width: 7vh;
+    max-height: 7vh;
+    min-width: 7vh;
+    min-height: 7vh;
+    border-radius: 2vh;
+}
+
+.ButtonVote {
+    min-width: 15vh;
+    max-width: 15vh;
+    max-height: 10vh;
+    min-height: 5vh;
+    border-radius: 1vh;
+    margin: 1vh;
+}
+
+#Nado {
+    display: flex;
+    align-items: center;
+}
+
+#Nado > button {
+ margin-left: auto;
+ border-radius: 0.5vh;
+ min-height: 5vh;
+ margin-top: 2vh;
+
+}
+
+#Nado > button:hover {
+        background-color:black;
+        color: seagreen;
+}

@@ -68,3 +68,21 @@ border-bottom: 2px solid seagreen;
     background-color: #242424;
     border-radius: 5vh;
 }
+
+.regBut {
+    min-width: 15vh;
+    max-width: 15vh;
+    max-height: 7vh;
+    min-height: 7vh;
+    margin-right: 1vh;
+}
+
+#reg:hover {
+    background-color:black;
+    color: seagreen;
+}
+
+#auth:hover {
+    background-color:black;
+    color: seagreen;
+}

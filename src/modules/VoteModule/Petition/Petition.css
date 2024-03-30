@@ -1,0 +1,11 @@
+.PetBut {
+    margin-top: 4vh;
+    min-width: 7vh;
+    max-height: 7vh;
+    min-height: 7vh;
+}
+
+.PetBut:hover {
+    background-color: black;
+    color: seagreen;
+}
