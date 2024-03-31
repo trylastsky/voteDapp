@@ -5,7 +5,7 @@ border-bottom: 2px solid seagreen;
 
 
 .LogoBut {
-    background-color: #242424;
+    background-color: rgba(0, 0, 0, 0);
     min-width: 5vh;
     min-height: 5vh;
     margin-right: auto;
@@ -13,11 +13,9 @@ border-bottom: 2px solid seagreen;
     font-weight: 2vh;
     margin-left: 1vh;
     margin-top: 1vh;
+    border: none;
 }
 
-.LogoBut:hover {
-    border-color: #242424;
-}
 
 .Logo {
     min-width: 5vh;
@@ -30,7 +28,7 @@ border-bottom: 2px solid seagreen;
 }
 
 .ButtonMenu {
-    background-color: #242424;
+    background-color: rgba(0, 0, 0, 0);
     margin-left: auto;
     max-width: 7vh;
     max-height: 10vh;

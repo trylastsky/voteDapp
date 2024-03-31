@@ -4,6 +4,7 @@ pragma solidity 0.8.24;
 contract VoteDapp {
 address payable public owner; // адрес владельца
 uint public usersCount; // количество пользователей в системе
+uint public petVotesTest; //test part for petition
 
 struct User {
     uint id;// айди пользователя
@@ -43,6 +44,11 @@ mapping(address => uint) userIdMap; // маппинг адрес => id поль�
 mapping(uint => User) userMap; //мапа для вытаскивания юзера по айди
 mapping(uint => Candidate) candidatsMap; //массив id голосования => его кандидаты
 mapping(uint => bool) candidatsStatusMap; //статус кандидата голосования
+mapping(address => bool) testPartMap;
+
+function watchTestPartMap() public view returns(bool) {
+    return testPartMap[msg.sender];
+}
 
 Vote[] votesMas; // массив голосований
 Petition[] petitionsMas; //массив петиций
@@ -60,6 +66,7 @@ _;
 
 
 constructor() {
+    petVotesTest = 0; // test part for petitions
     owner = payable(msg.sender); // deployer владелец
     userIdMap[msg.sender] = usersCount;
     userIdMap[msg.sender] = usersCount;// назначаем айди пользователю
@@ -72,8 +79,10 @@ constructor() {
 }
 
 
-function autoTh() public view returns (User memory) {
-    return(userMap[userIdMap[msg.sender]]);
+function writePetTest() public {
+    require(testPartMap[msg.sender] == false, "You already write this petition!");
+    petVotesTest++;
+    testPartMap[msg.sender] = true;
 }
 
 function addVote( //функция добавить голосование

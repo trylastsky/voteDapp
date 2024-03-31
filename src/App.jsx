@@ -19,6 +19,7 @@ import './App.css'
 
 let votes = [];
 const petitions = [];
+let votedapp = null; //начальная переменная для контракта
 
 export default function App() {
   //user useStates
@@ -37,7 +38,7 @@ export default function App() {
   //states for menu modules
   const [privateCabStatus, setPrivateCabStatus] = useState(false);
 
-  let votedapp = null; //начальная переменная для контракта
+
  
   useEffect(() => {
 		const useContract = async () => {
@@ -63,11 +64,8 @@ export default function App() {
   return (
     <>
      <Header
-     votedapp={votedapp}
      signer={signer}
      setSigner={setSigner}
-     signers={signers}
-     setSigners={setSigners}
      chain={chain}
      setChain={setChain}
      provider={provider}
@@ -99,7 +97,7 @@ export default function App() {
             <Vote></Vote>
           </>)}
           {!voteStatus && (<> 
-          <Petition></Petition>
+          <Petition signer={signer} votedapp={votedapp}></Petition>
           </>)}
         </div>
       </>)}

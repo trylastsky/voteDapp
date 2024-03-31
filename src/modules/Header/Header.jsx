@@ -6,7 +6,6 @@ import "./Header.css";
 
 
 export default function Header({
-	votedapp,
 	signer, //ёлочка votedApp:)
 	setSigner,
 	setProvider,
@@ -23,12 +22,15 @@ export default function Header({
 
 	const onConnect = async () => {
 		if(window.ethereum) { //проверяем есть ли метамаск
-		  console.log('metamask defined')
-		  const provider = new ethers.BrowserProvider(window.ethereum);
-		  setProvider(provider);
-		  await window.ethereum.request({ method: 'eth_requestAccounts' });
-		  let signer = provider.getSigner();
-		  setSigner(signer)
+			console.log('metamask defined')
+			const provider = new ethers.BrowserProvider(window.ethereum);
+			setProvider(provider);
+			console.log(provider)
+			const signers = await window.ethereum.request({ method: 'eth_requestAccounts' });
+			console.log(signers)
+			const signer = await provider.getSigner()
+			console.log(signer)
+			setSigner(signer)
 		}
 		else {
 			console.log('metamask not defined')
@@ -39,7 +41,7 @@ export default function Header({
 		}
 	  }
 
-
+	  window.ethereum.on('accountsChanged',onConnect);
 	  
 	
 	return (

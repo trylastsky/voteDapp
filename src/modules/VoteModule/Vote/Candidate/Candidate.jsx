@@ -10,7 +10,9 @@ export default function Candidate() {
     <div>
     <h2>Natasha</h2> 
         </div>  
-        <button className='ButtonVote'>Проголосовать</button>
+        <button className='ButtonVote' onClick={() => {
+            alert('Sorry this function is tested')
+        }}>Проголосовать</button>
         </div>
     <h2>Описание</h2>
     <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur corrupti earum doloribus, temporibus quasi aut, nobis qui iure repellendus corporis eum maxime nemo deserunt. Voluptate molestiae error excepturi iusto vero.</h3>
