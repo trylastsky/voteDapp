@@ -2,17 +2,22 @@ import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import './Petition.css'
 
+
 export default function Petition({signer, votedapp}) {
     const [votes, setVotes] = useState(0)
 
-    // useEffect(() => {
-    //     const states = async () => {
-    //         const votes = await votedapp.petVotesTest()
-    //         console.log(petVotesTest)
-    //         setVotes(votes)
-    //     }
-    //     states()
-    // }, [])
+    useEffect(() => {
+        const fetchVotes = async () => {
+          try {
+            const votess = await votedapp.connect(signer).petVotesTest()
+            const votes = await votess.wait()
+            setVotes(votes)
+          } catch (error) {
+            console.error(error)
+          }
+        }
+        fetchVotes()
+      }, [])
 
     return(<>
     <div className='VoteContainer'>
@@ -27,12 +32,19 @@ export default function Petition({signer, votedapp}) {
         if (signer == null) alert('пожалуйста зайдите в метамаск')
         else {
             // const statusWriteTransaction = await votedapp.watchTestPartMap();
+            // return {watchTestPartMap: statusWriteTransaction}
+            // console.log(statusWriteTransaction);
             // const statusWrite = await statusWriteTransaction.wait()
             // if (statusWrite == true) alert ("Вы уже подписали эту петицию");
             // else {
-                const transaction = await votedapp.connect(signer).writePetTest();
-                await transaction.wait()
-                setVotes(votes + 1)
+                try {
+                    const transaction = await votedapp.connect(signer).writePetTest();
+                    await transaction.wait()
+                    setVotes(votes + 1)
+                }
+                catch(e) {
+                    alert('Вы уже подписали эту петицию')
+                }
             // }
     }
         console.log(signer)

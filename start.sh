@@ -1,3 +1,4 @@
+npm i
 npx hardhat clean
 gnome-terminal -- npx hardhat node
 sleep 5

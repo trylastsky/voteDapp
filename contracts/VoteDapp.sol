@@ -4,7 +4,6 @@ pragma solidity 0.8.24;
 contract VoteDapp {
 address payable public owner; // адрес владельца
 uint public usersCount; // количество пользователей в системе
-uint public petVotesTest; //test part for petition
 
 struct User {
     uint id;// айди пользователя
@@ -66,7 +65,6 @@ _;
 
 
 constructor() {
-    petVotesTest = 0; // test part for petitions
     owner = payable(msg.sender); // deployer владелец
     userIdMap[msg.sender] = usersCount;
     userIdMap[msg.sender] = usersCount;// назначаем айди пользователю
@@ -81,7 +79,6 @@ constructor() {
 
 function writePetTest() public {
     require(testPartMap[msg.sender] == false, "You already write this petition!");
-    petVotesTest++;
     testPartMap[msg.sender] = true;
 }
 
