@@ -83,6 +83,7 @@ export default function App() {
       {/* {regStatus ? <Registration votedapp={votedapp} signer={signer}/> : (<> */}
       
       {privateCabStatus ? (<><PrivateCabinet
+      votedapp={votedapp}
       signer={signer}
       userAvatar={userAvatar}
       setUserAvatar={setUserAvatar}/></>) : (<>
@@ -98,6 +99,10 @@ export default function App() {
           </>)}
           {!voteStatus && (<> 
           <Petition signer={signer} votedapp={votedapp}></Petition>
+          <button onClick={async() => {
+                      const hui = await votedapp.connect(signer).viewPoll()
+                      console.log(hui)
+          }}>asdsadsadsadsadsasadsadadsadsadsadsadsad</button>
           </>)}
         </div>
       </>)}

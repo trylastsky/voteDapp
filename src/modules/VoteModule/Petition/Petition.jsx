@@ -9,14 +9,14 @@ export default function Petition({signer, votedapp}) {
     useEffect(() => {
         const fetchVotes = async () => {
           try {
-            const votess = await votedapp.connect(signer).petVotesTest()
-            const votes = await votess.wait()
+            const votes = await votedapp.testPartMap(signer)
+            console.log(votes)
             setVotes(votes)
           } catch (error) {
             console.error(error)
           }
         }
-        fetchVotes()
+        fetchVotes();
       }, [])
 
     return(<>
@@ -38,12 +38,12 @@ export default function Petition({signer, votedapp}) {
             // if (statusWrite == true) alert ("Вы уже подписали эту петицию");
             // else {
                 try {
-                    const transaction = await votedapp.connect(signer).writePetTest();
+                    const transaction = await votedapp.signer(signer).writePetTest()
                     await transaction.wait()
                     setVotes(votes + 1)
                 }
                 catch(e) {
-                    alert('Вы уже подписали эту петицию')
+                    alert(e)
                 }
             // }
     }

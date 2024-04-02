@@ -4,19 +4,29 @@ import { ethers } from "ethers";
 
 
 export default function PrivateCabinet({
+	votedapp,
 	signer,
 	userAvatar,
 	setUserAvatar }) {
 	const [voteType, setVoteType] = useState(true); //Задаем состояние созданых опросов/ петиций(true-vote,false-petition)
-	// const [userAdr, setUserAdr] = useState();
+	const [userName, setUserName] = useState('Your name');
+	const [userDescription, setUserDescription] = useState('Your description')
+	const [userTimeOfReg, setUserTimeOfReg] = useState(null);
 
-		// useEffect(() => {
-		// 	const adr = async () => {
-		// 		let adr = ethers.getAccountPath(signer)
-		// 		setUserAdr(adr)
-		// 	}
-		// 	adr()
-		// }, [])
+		useEffect(() => {
+			const setStates = async () => {
+				const userMap = await votedapp.connect(signer).userMap(signer)
+				setUserName(userMap.name);
+				setUserDescription(userMap.description);
+				const date = Number(userMap.timeReg);
+				console.log(date)
+				const newDate = new Date().getTime();
+				console.log(newDate)
+				const dateReg = newDate - date + date
+				setUserTimeOfReg(new Date(dateReg).toLocaleDateString());
+			}
+			setStates()
+		}, [])
 
 	return (
 		<>
@@ -30,10 +40,9 @@ export default function PrivateCabinet({
 							alt="ваш аватар"
 						/>
 					</button>
-					<h1>Ваше имя</h1>
-					<h3>ваше описание</h3>
-					<h4>ваше время регистрации</h4>
-					<h4>userId</h4>
+					<h1>{userName}</h1>
+					<h3>{userDescription}</h3>
+					<h4>{userTimeOfReg}</h4>
 				</div>
 				<div className="UserVoteList">
 					<h1>

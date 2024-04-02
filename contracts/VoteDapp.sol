@@ -3,10 +3,8 @@ pragma solidity 0.8.24;
 
 contract VoteDapp {
 address payable public owner; // адрес владельца
-uint public usersCount; // количество пользователей в системе
 
 struct User {
-    uint id;// айди пользователя
     string name;//имя пользователя
     string description;// описание пользователя 
     uint timeReg; //Время регистрации на сайте
@@ -18,8 +16,8 @@ struct Candidate { // структура кандидата
 }
 
 struct Vote { // структура обычного голосования
-    uint idCreator; //тот кто создал голосование
     uint id;//айди голосования
+    address creator; //тот кто создал голосование
     string name;//имя голосования
     string description; //описание голосования
     uint timeStart; // время начала голосования
@@ -29,8 +27,8 @@ struct Vote { // структура обычного голосования
 
 
 struct Petition { // структура петиции
-    uint idCreator; // айди создателя петиции
     uint id; //айди петиции
+    address creator; // айди создателя петиции
     string name; // имя петиции
     string description; //описание петиции
     uint timeStart; //время старта петиции
@@ -39,17 +37,13 @@ struct Petition { // структура петиции
 }
 
 
-mapping(address => uint) userIdMap; // маппинг адрес => id пользователя в системе
-mapping(uint => User) userMap; //мапа для вытаскивания юзера по айди
+mapping(address => User) public userMap; // маппинг адрес => id пользователя в системе
 mapping(uint => Candidate) candidatsMap; //массив id голосования => его кандидаты
 mapping(uint => bool) candidatsStatusMap; //статус кандидата голосования
-mapping(address => bool) testPartMap;
+mapping(address => bool) public testPartMap;
 
-function watchTestPartMap() public view returns(bool) {
-    return testPartMap[msg.sender];
-}
 
-Vote[] votesMas; // массив голосований
+Vote[] public votesMas; // массив голосований
 Petition[] petitionsMas; //массив петиций
 
 modifier checkAdr0() { //проверка на 0аддресс
@@ -66,10 +60,7 @@ _;
 
 constructor() {
     owner = payable(msg.sender); // deployer владелец
-    userIdMap[msg.sender] = usersCount;
-    userIdMap[msg.sender] = usersCount;// назначаем айди пользователю
-    userMap[userIdMap[msg.sender]] = User( // назначаем по айдишнику структуру
-        userIdMap[msg.sender], //айди пользователя
+    userMap[msg.sender] = User( // назначаем по айдишнику структуру
         "Owner", // имя пользователя
         "I'm owner this system UAHAHA", // описание пользователя
         block.timestamp // время регистрации в системе
@@ -82,6 +73,14 @@ function writePetTest() public {
     testPartMap[msg.sender] = true;
 }
 
+function setUserDescription(string memory _description) public {
+    userMap[msg.sender].description = _description;
+}
+
+function setUserName(string memory _name) public {
+    userMap[msg.sender].name = _name;
+}
+
 function addVote( //функция добавить голосование
     string memory _name,
     string memory _description,
@@ -90,8 +89,8 @@ function addVote( //функция добавить голосование
     ) 
     public  { 
         votesMas.push(Vote( //пушим в массив структуру голосования
-        userIdMap[msg.sender], //достаем от отправителя его айди
         votesMas.length, //айди голосования
+        msg.sender, //достаем от отправителя его address
         _name, //название голосования 
         _description, // описание голосования
         block.timestamp, // время начала голосования
@@ -107,8 +106,8 @@ function addPetition( //функция добавить голосование
     ) 
     public  { //добавляем петицию
         petitionsMas.push(Petition( //пушим в массив структурупетиции
-        userIdMap[msg.sender], //достаем от отправителя его айди
         petitionsMas.length, //айди петиции
+        msg.sender, //достаем от отправителя его адресс
         _name, //название петиции
         _description, // описание петиции
         block.timestamp, // время начала петиции
