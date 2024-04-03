@@ -37,14 +37,14 @@ struct Petition { // структура петиции
 }
 
 
+mapping(address => bool) public regStatus;
 mapping(address => User) public userMap; // маппинг адрес => id пользователя в системе
 mapping(uint => Candidate) candidatsMap; //массив id голосования => его кандидаты
 mapping(uint => bool) candidatsStatusMap; //статус кандидата голосования
-mapping(address => bool) public testPartMap;
 
 
 Vote[] public votesMas; // массив голосований
-Petition[] petitionsMas; //массив петиций
+Petition[] public petitionsMas; //массив петиций
 
 modifier checkAdr0() { //проверка на 0аддресс
 require(msg.sender != address(0),"Your address not found!");
@@ -69,16 +69,14 @@ constructor() {
 
 
 function writePetTest() public {
-    require(testPartMap[msg.sender] == false, "You already write this petition!");
-    testPartMap[msg.sender] = true;
 }
 
-function setUserDescription(string memory _description) public {
-    userMap[msg.sender].description = _description;
-}
 
-function setUserName(string memory _name) public {
+function reg(string memory _name, string memory _description) public {
+    require (regStatus[msg.sender] != true, "you already registred");
     userMap[msg.sender].name = _name;
+    userMap[msg.sender].description = _description;
+    userMap[msg.sender].timeReg = block.timestamp;
 }
 
 function addVote( //функция добавить голосование

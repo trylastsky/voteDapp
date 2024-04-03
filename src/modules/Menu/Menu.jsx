@@ -7,11 +7,10 @@ export default function Menu({
 	privateCabStatus,
 	setMenuStatus,
 	setPrivateCabStatus,
-	// setRegStatus 
+	regStatus
 }) {
 	return (
 		<>
-			<div className="MenuModules"></div>
 			<button
 				className="ButtonMenuModules"
 				onClick={() => {
@@ -33,6 +32,14 @@ export default function Menu({
 					</div>
 				</>
 			)}
+
+			{!regStatus && (<>
+			<div className="exitContainer">
+				<button className="ButtonMenuExit" onClick={() => {
+					window.location.reload()
+				}}> Отмена</button>
+			</div>
+			</>)}
 		</>
 	);
 }

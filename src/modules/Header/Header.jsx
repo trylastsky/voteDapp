@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { useCallback } from "react";
 import Menu from "../Menu/Menu";
 import "./Header.css";
 
@@ -6,6 +7,7 @@ import "./Header.css";
 
 
 export default function Header({
+	votedapp,
 	signer, //ёлочка votedApp:)
 	setSigner,
 	setProvider,
@@ -15,22 +17,17 @@ export default function Header({
 	setPrivateCabStatus,
 	userAvatar,
 	setUserAvatar,
-	// regStatus,
-	// setRegStatus
+	regStatus,
+	setRegStatus
 }) {
 
 
-	const onConnect = async () => {
+	const onConnect = useCallback(async () => {
 		if(window.ethereum) { //проверяем есть ли метамаск
-			console.log('metamask defined')
 			const provider = new ethers.BrowserProvider(window.ethereum);
+			const newSigner = await provider.getSigner()
 			setProvider(provider);
-			console.log(provider)
-			const signers = await window.ethereum.request({ method: 'eth_requestAccounts' });
-			console.log(signers)
-			const signer = await provider.getSigner()
-			console.log(signer)
-			setSigner(signer)
+			setSigner(newSigner)
 		}
 		else {
 			console.log('metamask not defined')
@@ -38,8 +35,10 @@ export default function Header({
 			onclick(window.location.reload())
 			let provider = ethers.getDefaultProvider()
 			setProvider(provider);
+			setSigner(null);
 		}
 	  }
+	)
 
 	  window.ethereum.on('accountsChanged',onConnect);
 	  
@@ -51,18 +50,20 @@ export default function Header({
 					className="LogoBut"
 					onClick={() => {
 						setPrivateCabStatus(false);
-						// setRegStatus(false);
 						setMenuStatus(false);
 					}}
 				>
 					<h1 className="Logo">VoteDapp</h1>
 				</button>
 				{/* // изображение аватара пользователя */}
+				
 				<div className="caseUserAvatar">
 				{signer ? (<>
 				
 					{!privateCabStatus && (
 						<>
+						{regStatus && (<>
+						
 							<button
 								className="butUserAvatar"
 								onClick={() => {
@@ -78,15 +79,12 @@ export default function Header({
 							</button>
 						</>
 					)}
+						</>)}
 				</>) : (<>
-				{/* {regStatus == false && <> */}
+
 				<button id="auth" className="regBut" onClick={onConnect}>Вход</button>
-				{/* <button id="reg" className="regBut" onClick={() => {
-					// setRegStatus(true)
-					setMenuStatus(false)
-				}}>Регистрация</button> */}
+		
 				
-				{/* </>} */}
 				</>)}
 				
 
@@ -114,7 +112,7 @@ export default function Header({
 							privateCabStatus={privateCabStatus}
 							setMenuStatus={setMenuStatus}
 							setPrivateCabStatus={setPrivateCabStatus}
-							// setRegStatus={setRegStatus}
+							regStatus={regStatus}
 						/>
 					</>
 				)}

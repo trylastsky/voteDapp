@@ -28,6 +28,9 @@ export default function PrivateCabinet({
 			setStates()
 		}, [])
 
+		window.ethereum.on('accountsChanged', () => {
+			window.location.reload();
+		})
 	return (
 		<>
 			<div className="PrivateCabinet">
