@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\admin\\Desktop\\reps\\voteDapp\\contracts\\VoteDapp.sol": {
-      "lastModificationDate": 1712139118836,
-      "contentHash": "b749bff05e14c29d6d699f2f5eb20269",
+      "lastModificationDate": 1712230400241,
+      "contentHash": "441eab3199c620ea710c7a6c28d87a91",
       "sourceName": "contracts/VoteDapp.sol",
       "solcConfig": {
         "version": "0.8.24",

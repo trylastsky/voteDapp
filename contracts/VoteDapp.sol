@@ -59,6 +59,7 @@ _;
 
 
 constructor() {
+    regStatus[msg.sender] = true;
     owner = payable(msg.sender); // deployer владелец
     userMap[msg.sender] = User( // назначаем по айдишнику структуру
         "Owner", // имя пользователя
@@ -67,8 +68,18 @@ constructor() {
     );
 }
 
+// functions for massives length view to frontend
+function votesMasLength() public view returns(uint) { 
+    return(votesMas.length);
+}
 
-function writePetTest() public {
+function petitionsMasLength() public view returns(uint) {
+    return(petitionsMas.length);
+}
+
+
+function writePetTest(uint index) public {
+
 }
 
 

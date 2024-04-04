@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import Menu from "../Menu/Menu";
 import "./Header.css";
 
@@ -22,21 +22,32 @@ export default function Header({
 }) {
 
 
+	useEffect(() => {
+		if(signer) {
+			const stateRegStatus = async () => {
+				const _regStatus = await votedapp.connect(signer).regStatus(signer);
+				setRegStatus(_regStatus)
+			}
+			stateRegStatus();
+		}
+	},[signer])
+
 	const onConnect = useCallback(async () => {
 		if(window.ethereum) { //проверяем есть ли метамаск
 			const provider = new ethers.BrowserProvider(window.ethereum);
 			const newSigner = await provider.getSigner()
 			setProvider(provider);
-			setSigner(newSigner)
+			setSigner(newSigner);
 		}
 		else {
-			console.log('metamask not defined')
 			alert('Please Install Metamask')
 			onclick(window.location.reload())
 			let provider = ethers.getDefaultProvider()
 			setProvider(provider);
 			setSigner(null);
 		}
+	
+		console.log(regStatus);
 	  }
 	)
 

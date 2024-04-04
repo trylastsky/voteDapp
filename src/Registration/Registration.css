@@ -1,0 +1,35 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1vh;
+}
+
+.Input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 5vh;
+    text-align: center;
+    margin-top: 1vh;
+    min-height: 5vh;
+    max-width: 50vh;
+}
+
+.Input:hover {
+    border-color: seagreen;
+}
+
+.RegButton {
+    min-width: 15vh;
+    max-width: 15vh;
+    max-height: 10vh;
+    min-height: 5vh;
+    border-radius: 1vh;
+    margin: 1vh;
+    background-color:#3B3B3B;
+}
+
+.RegButton:hover {
+    background-color: seagreen;
+}

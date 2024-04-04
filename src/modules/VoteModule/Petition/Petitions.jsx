@@ -1,6 +1,5 @@
 import { useEffect, useState,useCallback } from 'react'
 import { ethers } from 'ethers'
-import constructor from '../../../../scripts/constructor.json'
 import './Petition.css'
 
 
@@ -9,7 +8,9 @@ export default function Petition({votedapp, signer}) {
 
     const viewContractAssets = useCallback(async () => {
         const newPetitions = [];
-        for (let i = 0; i < constructor.petitions.length; i++) {
+        const _petitionsMasLength = await votedapp.connect(signer).petitionsMasLength()
+        console.log(Number(_petitionsMasLength))
+        for (let i = 0; i < Number(_petitionsMasLength); i++) {
           const petition = await votedapp.connect(signer).petitionsMas(i);
           newPetitions.push(petition);
         }
@@ -32,8 +33,8 @@ console.log(petitions)
     <h2>Описание:</h2>
     <h3 className='descriptionVote'>{petition.description}</h3>
         </div>
-    <h2 id='candidatsH2'>Подписали: {petition.votes.toString()} </h2>
     <button  className='PetBut'>Подписать</button>
+    <h2 id='candidatsH2'>Подписали: {petition.votes.toString()} </h2>
             <p>id:{petition.id.toString()}</p>
     </div>
         </>))}

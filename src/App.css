@@ -14,14 +14,6 @@
   max-height: none;
 }
 
-.Alert {
-  background-size: 100% 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100vh;
-  min-height: 100vh;
-}
 
 .changeBut {
   margin-left: 10vh;

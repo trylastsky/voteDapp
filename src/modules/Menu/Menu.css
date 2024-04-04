@@ -6,6 +6,7 @@
     min-height: 5vh;
     border-radius: 1vh;
     margin: 1vh;
+    background-color: #3B3B3B;
 }
 .ButtonMenuExit {
     min-width: 15vh;
@@ -14,8 +15,14 @@
     min-height: 5vh;
     border-radius: 1vh;
     margin: 1vh;
+    background-color: #3B3B3B;
 }
 
 .ButtonMenuExit:hover {
     background-color: brown;
+}
+
+
+.ButtonMenuModules:hover {
+    background-color: seagreen;
 }

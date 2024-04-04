@@ -1,6 +1,5 @@
 import { useEffect,useCallback,useState } from 'react';
 import Candidate from './Candidate/Candidate';
-import constructor from "../../../../scripts/constructor.json"
 
 import './Vote.css';
 
@@ -10,7 +9,8 @@ export default function Vote({votedapp, signer}) {
 
     const viewContractAssets = useCallback(async () => {
       const newVotes = [];
-      for (let i = 0; i < constructor.votes.length; i++) {
+      const _votesMasLength = await votedapp.connect(signer).votesMasLength();
+      for (let i = 0; i < Number(_votesMasLength); i++) {
         const vote = await votedapp.connect(signer).votesMas(i);
         newVotes.push(vote);
       }
@@ -33,7 +33,7 @@ export default function Vote({votedapp, signer}) {
     <div className='VoteContainer' key={vote.id}>
         <div id='naddo'>
 
-    <h2 className='nameVote'>{vote.name} </h2>
+    <h3 className='nameVote'>{vote.name} </h3>
     <h2>Описание:
     </h2>
     <h3 className='descriptionVote'>{vote.description}</h3>

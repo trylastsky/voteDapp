@@ -1,21 +1,23 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { ethers } from 'ethers'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { ethers } from 'ethers';
 
 
 //import modules
-import Header from './modules/Header/Header'
-import PrivateCabinet from './modules/PrivateCabinet/PrivateCabinet'
-import Votes from './modules/VoteModule/Vote/Votes'
-import Petitions from './modules/VoteModule/Petition/Petitions'
+import Header from './modules/Header/Header';
+import PrivateCabinet from './modules/PrivateCabinet/PrivateCabinet';
+import Votes from './modules/VoteModule/Vote/Votes';
+import Petitions from './modules/VoteModule/Petition/Petitions';
+import Alert from './modules/Alert/Alert';
+import Registration from './Registration/Registration';
 
 //import assets
 import userAvatarDefault from "./assets/testAvatar.png";
 
-
-import voteDapp from "./artifacts/contracts/VoteDapp.sol/VoteDapp.json" //импорт abi
+//import contract particles
+import voteDapp from "./artifacts/contracts/VoteDapp.sol/VoteDapp.json"; //импорт abi
 import contractAddress from '../contractAddress.json'; //импорт voteDapp.target
-import './App.css'
+import './App.css';
 
 let votedapp = null; //начальная переменная для контракта
 
@@ -25,23 +27,22 @@ export default function App() {
 
 
   //ethers useStates
-  const [provider, setProvider] = useState(null) //провайдер сети
-  const [signer, setSigner] = useState(null); //активная учетка
-  const [signers, setSigners] = useState([]); //все учетки пользователя
-  const [chain, setChain] = useState(null); //активная сеть
+  const [provider, setProvider] = useState(null); //chain provider
+  const [signer, setSigner] = useState(null); //active signer
+  const [chain, setChain] = useState(null); //active chain
   //states for modules
-  const [voteStatus, setVoteStatus] = useState(true);
-  const [menuStatus, setMenuStatus] = useState(false)
-  const [regStatus, setRegStatus] = useState(true);
-  //states for menu modules
+  const [voteStatus, setVoteStatus] = useState(true); // toggle pop to votes page 
+  const [menuStatus, setMenuStatus] = useState(false); // toggle pop to menu buttons
   const [privateCabStatus, setPrivateCabStatus] = useState(false);
+  //states for backend
+  const [regStatus, setRegStatus] = useState(true); //signer registration status state
 
 
  
   useEffect(() => {
-		const useContract = async () => {
+		const useContract = async () => { // create contract object
 			try {
-        votedapp = new ethers.Contract( //создание экземплера контракта
+        votedapp = new ethers.Contract( //creating a contract instance
           contractAddress, voteDapp.abi, provider)
 			  } catch(e) {
 				alert(e)
@@ -49,7 +50,7 @@ export default function App() {
 		  }
 		useContract()
 	}, [signer,provider])
-  
+  //events metamask
   window.ethereum.on('accountsChanged', () => {window.location.reload()})
 
   return (
@@ -96,19 +97,11 @@ export default function App() {
         </div>
       </>)}
     </>) : (<>
-    <h1>
-    Пожалуйста зарегистрируйтесь
-    </h1>
+    <Registration/>
    </>)}
       </>) 
     : (<>
-      <div className='Alert'>
-
-      <h2>Пожалуйста войдите в MetaMask</h2>
-      <h2>Please sig in MetaMask</h2>
-      <h3>Данная платформа поддерживается только в MetaMask</h3>
-      <h3>These actions occur only after entering the MetaMask.</h3>
-      </div>
+      <Alert/>
       </>)}
       
       
