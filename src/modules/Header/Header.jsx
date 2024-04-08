@@ -46,8 +46,7 @@ export default function Header({
 			setProvider(provider);
 			setSigner(null);
 		}
-	
-		console.log(regStatus);
+
 	  }
 	)
 

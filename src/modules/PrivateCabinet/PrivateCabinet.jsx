@@ -61,7 +61,7 @@ export default function PrivateCabinet({
 										setVoteType(false);
 									}}
 								>
-									К Петициям
+									Петиции
 								</button>
 								<button className="ChangeButtonVotes" onClick={() => {
 									
@@ -75,7 +75,7 @@ export default function PrivateCabinet({
 										setVoteType(true);
 									}}
 								>
-									К Голосованиям
+									Голосования
 								</button>
 								<button className="ChangeButtonPetitions">Добавить Петицию</button>
 							</>

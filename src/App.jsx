@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 
 
@@ -9,7 +8,7 @@ import PrivateCabinet from './modules/PrivateCabinet/PrivateCabinet';
 import Votes from './modules/VoteModule/Vote/Votes';
 import Petitions from './modules/VoteModule/Petition/Petitions';
 import Alert from './modules/Alert/Alert';
-import Registration from './Registration/Registration';
+import Registration from './modules/Registration/Registration';
 
 //import assets
 import userAvatarDefault from "./assets/testAvatar.png";
@@ -35,7 +34,7 @@ export default function App() {
   const [menuStatus, setMenuStatus] = useState(false); // toggle pop to menu buttons
   const [privateCabStatus, setPrivateCabStatus] = useState(false);
   //states for backend
-  const [regStatus, setRegStatus] = useState(true); //signer registration status state
+  const [regStatus, setRegStatus] = useState(null); //signer registration status state
 
 
  
@@ -97,7 +96,7 @@ export default function App() {
         </div>
       </>)}
     </>) : (<>
-    <Registration/>
+    <Registration votedapp={votedapp} signer={signer}/>
    </>)}
       </>) 
     : (<>

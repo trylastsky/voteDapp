@@ -1,10 +1,20 @@
 import { useEffect, useState,useCallback } from 'react'
-import { ethers } from 'ethers'
 import './Petition.css'
+
 
 
 export default function Petition({votedapp, signer}) {
     const [petitions, setPetitions] = useState([])
+
+    const writePetition = useCallback(async (index) => {
+        try{
+            const transaction = await votedapp.connect(signer).writePet(index);
+            await transaction.wait();
+        }
+        catch(e) {
+            alert('Вы уже подписали эту петицию')
+        }
+    })
 
     const viewContractAssets = useCallback(async () => {
         const newPetitions = [];
@@ -33,7 +43,7 @@ console.log(petitions)
     <h2>Описание:</h2>
     <h3 className='descriptionVote'>{petition.description}</h3>
         </div>
-    <button  className='PetBut'>Подписать</button>
+    <button  className='PetBut' onClick={() => {writePetition(petition.id)}}>Подписать</button>
     <h2 id='candidatsH2'>Подписали: {petition.votes.toString()} </h2>
             <p>id:{petition.id.toString()}</p>
     </div>

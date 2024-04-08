@@ -41,6 +41,7 @@ mapping(address => bool) public regStatus;
 mapping(address => User) public userMap; // маппинг адрес => id пользователя в системе
 mapping(uint => Candidate) candidatsMap; //массив id голосования => его кандидаты
 mapping(uint => bool) candidatsStatusMap; //статус кандидата голосования
+mapping(uint => mapping(address => bool)) oneWriteCheckMap; // маппинг который показывает какие петиции подписал юзер
 
 
 Vote[] public votesMas; // массив голосований
@@ -78,8 +79,10 @@ function petitionsMasLength() public view returns(uint) {
 }
 
 
-function writePetTest(uint index) public {
-
+function writePet(uint index) public {
+    require(oneWriteCheckMap[index][msg.sender] == false, 'you already write this petition');
+    petitionsMas[index].votes++;
+    oneWriteCheckMap[index][msg.sender] = true;
 }
 
 
@@ -88,6 +91,7 @@ function reg(string memory _name, string memory _description) public {
     userMap[msg.sender].name = _name;
     userMap[msg.sender].description = _description;
     userMap[msg.sender].timeReg = block.timestamp;
+    regStatus[msg.sender] = true;
 }
 
 function addVote( //функция добавить голосование

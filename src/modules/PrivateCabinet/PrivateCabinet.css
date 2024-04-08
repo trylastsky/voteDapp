@@ -32,11 +32,11 @@
 }
 
 .UserVoteList {
+    display: flex;
     padding-left: 4vh;
     margin-top: 1.5vh;
     min-width: 60vh;
-    max-width: 70vh;
-    display: flex;
+    max-width: 150vh;
     flex-direction: column;
     margin-left: auto;
     margin-right: 1vh;
@@ -46,13 +46,14 @@
 }
 
 .ChangeButtonVotes {
-    padding: 1vh;
+    text-align: center;
     min-width: 15vh;
     max-width: 15vh;
     max-height: 10vh;
     min-height: 5vh;
     border-radius: 0vh;
     margin: 1vh;
+    background-color: #3B3B3B;
 }
 
 .ChangeButtonVotes:hover {
@@ -61,12 +62,14 @@
 
 
 .ChangeButtonPetitions {
+    text-align: center;
     min-width: 15vh;
     max-width: 15vh;
     max-height: 10vh;
     min-height: 5vh;
     border-radius: 0vh;
     margin: 1vh;
+    background-color: #3B3B3B;
 }
 
 .ChangeButtonPetitions:hover {
