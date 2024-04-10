@@ -6,6 +6,7 @@ import './Vote.css';
 export default function Vote({votedapp, signer}) {
 
     const [votes, setVotes] = useState([]);
+    const [statusJoinButton, setStatusJoinButton] = useState(null);
 
     const viewContractAssets = useCallback(async () => {
       const newVotes = [];
@@ -15,7 +16,10 @@ export default function Vote({votedapp, signer}) {
         newVotes.push(vote);
       }
       setVotes(newVotes);
+
+
     }, [signer]);
+
     
     useEffect(() => {
       viewContractAssets();
@@ -39,8 +43,22 @@ export default function Vote({votedapp, signer}) {
     <h3 className='descriptionVote'>{vote.description}</h3>
         </div>
     <h2 id='candidatsH2'>Кандидаты</h2>
+    <div className='Candidats'>
+      <Candidate votedapp={votedapp}
+      signer={signer}
+      voteId={vote.id} 
+      statusJoinButton={statusJoinButton}
+      setStatusJoinButton={setStatusJoinButton}
+  
+      key={'vote' + vote.id + 'Candidats'}/>
+    </div>
     <p>id:{vote.id.toString()}</p>
-
+    {statusJoinButton === true && (<>
+      <button id='setCandidate' onClick={async () => {
+        const ts = await votedapp.connect(signer).addCandidate(vote.id)
+      }}>Стать Кандидатом</button>
+    </>)}
+    
     </div>
     </>))}
 

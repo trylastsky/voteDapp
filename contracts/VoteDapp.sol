@@ -11,6 +11,7 @@ struct User {
 }
 
 struct Candidate { // структура кандидата
+    uint id;
     User user; // структура пользователя , тоесть кандидата голосования
     uint votes; // количество голосов кандидата
 }
@@ -39,10 +40,16 @@ struct Petition { // структура петиции
 
 mapping(address => bool) public regStatus;
 mapping(address => User) public userMap; // маппинг адрес => id пользователя в системе
-mapping(uint => Candidate) candidatsMap; //массив id голосования => его кандидаты
-mapping(uint => bool) candidatsStatusMap; //статус кандидата голосования
-mapping(uint => mapping(address => bool)) oneWriteCheckMap; // маппинг который показывает какие петиции подписал юзер
 
+mapping (address => bool) public candidateStatusMap;//кандидат может избиратся только в 1 голосовании
+mapping(uint => Candidate[]) public candidatsMap; //массив id голосования => его кандидаты
+
+mapping(address => mapping(uint => bool)) statusChangeMap; // маппинг в котором лежит статус голоса в том или ином голосовании
+
+mapping(uint => mapping(address => bool)) oneWriteCheckMap; // маппинг который показывает какие петиции подписал юзер
+//мапинги в которых хранятся добавленные пользователем структуры
+mapping(address => Petition[]) public userAddedPetitions;
+mapping(address => Vote[]) public userAddedVotes;
 
 Vote[] public votesMas; // массив голосований
 Petition[] public petitionsMas; //массив петиций
@@ -58,18 +65,47 @@ require(msg.sender.balance >= msg.value, "no money no funny");
 _;
 }
 
+modifier checkReg() {
+    require(regStatus[msg.sender] == true);
+    _;
+}
+
 
 constructor() {
     regStatus[msg.sender] = true;
     owner = payable(msg.sender); // deployer владелец
     userMap[msg.sender] = User( // назначаем по айдишнику структуру
-        "Owner", // имя пользователя
-        "I'm owner this system UAHAHA", // описание пользователя
+        "Trylastsky", // имя пользователя
+        "I am the creator of this project, do you like roses?", // описание пользователя
         block.timestamp // время регистрации в системе
     );
 }
 
+
+function checkTimeVote(uint idVote) public view returns(bool aha) { //проверка времени для кнопки вступления
+    if(block.timestamp <= (votesMas[idVote].timeStart + votesMas[idVote].timeEnd)) {
+        return(true);
+    }
+    else {
+        if(block.timestamp >= (votesMas[idVote].timeStart + votesMas[idVote].timeEnd)) {
+        return(false);
+    }
+    }
+}
 // functions for massives length view to frontend
+
+function checkLengthAddedVotes() public view returns(uint) {
+    return(userAddedVotes[msg.sender].length);
+}
+
+function checkLengthAddedPetitions() public view returns(uint) {
+    return(userAddedPetitions[msg.sender].length);
+}
+
+function checkLengthCandidats(uint idVote) public view returns(uint) {
+    return(candidatsMap[idVote].length);
+}
+
 function votesMasLength() public view returns(uint) { 
     return(votesMas.length);
 }
@@ -79,7 +115,7 @@ function petitionsMasLength() public view returns(uint) {
 }
 
 
-function writePet(uint index) public {
+function writePet(uint index) public checkReg() {
     require(oneWriteCheckMap[index][msg.sender] == false, 'you already write this petition');
     petitionsMas[index].votes++;
     oneWriteCheckMap[index][msg.sender] = true;
@@ -100,38 +136,66 @@ function addVote( //функция добавить голосование
     uint _timeToJoin, //колво минут , за которое могут регистрироватся кандидаты
     uint _daysToVote // время голосования, в минутах (test)
     ) 
-    public  { 
-        votesMas.push(Vote( //пушим в массив структуру голосования
-        votesMas.length, //айди голосования
+    public checkReg()  { 
+        Vote memory newVote = Vote(
+         votesMas.length, //айди голосования
         msg.sender, //достаем от отправителя его address
         _name, //название голосования 
         _description, // описание голосования
         block.timestamp, // время начала голосования
         block.timestamp + _timeToJoin * 60, // тестовая часть, пользователь может стать кандидатом за x минут
         block.timestamp + _daysToVote * 60 // время голосования в минутах test
-        ));
+        );
+    votesMas.push(newVote);
+    userAddedVotes[msg.sender].push(newVote);
 }
+
+function delVote(uint index) public checkReg() {
+    // Обновляем idVote на новое значение id последнего голоса
+    uint idVote = userAddedVotes[msg.sender][index].id;
+    userAddedVotes[msg.sender][userAddedVotes[msg.sender].length - 1];
+    userAddedVotes[msg.sender].pop();
+    votesMas[votesMas.length - 1].id = votesMas[idVote].id;
+    votesMas[idVote] = votesMas[votesMas.length - 1];
+    votesMas.pop();
+}
+
 
 function addPetition( //функция добавить голосование
     string memory _name,
     string memory _description,
     uint _daysToVote // время голосования, в минутах (test)
     ) 
-    public  { //добавляем петицию
-        petitionsMas.push(Petition( //пушим в массив структурупетиции
-        petitionsMas.length, //айди петиции
-        msg.sender, //достаем от отправителя его адресс
-        _name, //название петиции
-        _description, // описание петиции
-        block.timestamp, // время начала петиции
-        block.timestamp + _daysToVote * 60, // время голосования в минутах test
-        0 //количество голосов 0 иначе побьют
-        ));
+    public checkReg() { //добавляем петицию
+        Petition memory pet = Petition(
+            //пушим в массив структурупетиции
+            petitionsMas.length, //айди петиции
+            msg.sender, //достаем от отправителя его адресс
+            _name, //название петиции
+            _description, // описание петиции
+            block.timestamp, // время начала петиции
+            block.timestamp + _daysToVote * 60, // время голосования в минутах test
+            0 //количество голосов 0 иначе побьют
+        );
+        petitionsMas.push(pet);
+        userAddedPetitions[msg.sender].push(pet);
+    
 }
 
 
-function addCandidate(uint idVote) public  {
-    // require(votesMas[idVote] <= votesMas.length,"this poll not found");
+function addCandidate(uint idVote) public checkReg()  { // добавление кандидата
+    require(candidateStatusMap[msg.sender] == false, 'you already candidate');// проверка участвует ли кандидат в ругих голсованиях
+    require(block.timestamp <= votesMas[idVote].timeStart + votesMas[idVote].timeToJoin, 'end push candidats, time over');// проверка уложился ли кандидат в временное ограничение для поступления
+    candidatsMap[idVote].push(Candidate(candidatsMap[idVote].length,userMap[msg.sender], 0));// добавляем в мапу голосования кандидата с 0 голосов
+    candidateStatusMap[msg.sender] = true; //ставим статус что отправитель пока больше не может голосовать
+
+}
+
+function changeCandidate(uint idVote,uint idCandidate) public checkReg() {//проголосовать за кандидата
+    require(statusChangeMap[msg.sender][idVote] != true, 'you already change candidate');//проверка голосовал ли юзер
+    require(block.timestamp <= votesMas[idVote].timeStart + votesMas[idVote].timeEnd, 'time to vote ended');// проверка на действительность голосования
+    candidatsMap[idVote][idCandidate].votes++; //добавляем голосов кандидату
+    statusChangeMap[msg.sender][idVote] = true; // сообщаем что отправитель уже проголосовал
 
 }
 

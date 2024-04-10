@@ -1,3 +1,4 @@
+
 .CandidateContainer {
     margin-bottom: 2vh;
     display: flex;
@@ -37,6 +38,7 @@
  border-radius: 0.5vh;
  min-height: 5vh;
  margin-top: 2vh;
+ background-color: #B3B3B3;
 
 }
 

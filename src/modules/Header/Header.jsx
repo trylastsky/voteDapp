@@ -30,6 +30,7 @@ export default function Header({
 			}
 			stateRegStatus();
 		}
+		window.ethereum.on('accountsChanged',onConnect);
 	},[signer])
 
 	const onConnect = useCallback(async () => {
@@ -50,7 +51,6 @@ export default function Header({
 	  }
 	)
 
-	  window.ethereum.on('accountsChanged',onConnect);
 	  
 	
 	return (

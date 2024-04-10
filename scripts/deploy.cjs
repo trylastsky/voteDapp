@@ -27,6 +27,11 @@ async function main() {
     console.log(`Added votePoll < ${votes[i].name} >`)
   }
 
+  //add candidat owner 
+    const transaction = await votedapp.connect(deployer).addCandidate(1);
+    await transaction.wait();
+    console.log(`Add candidate ${deployer.address}`);
+
   //add petitions
   for (let i = 0; i < petitions.length; i++) {
     const transaction = await votedapp.connect(deployer).addPetition(

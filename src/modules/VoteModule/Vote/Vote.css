@@ -2,6 +2,7 @@
     margin: 0;
 }
 
+
 .votes {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -58,4 +59,17 @@
 
 #naddo {
     margin-bottom: 5vh;
+}
+
+#setCandidate {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    background-color: #B3B1;
+}
+
+#setCandidate:hover {
+    background-color: seagreen;
+    color: black;
 }

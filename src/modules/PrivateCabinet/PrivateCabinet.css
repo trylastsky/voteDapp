@@ -80,3 +80,33 @@
     display: flex;
     margin-right: auto;
 }
+
+#info {
+    margin-top: 1vh
+}
+
+.myVote {
+    display: flex;
+    margin-top: 1vh;
+    padding: 1vh;
+    border: 1px solid seagreen;
+    border-radius: 1vh;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DeleteBut {
+    min-width: 10vh;
+    margin-top: 1vh;
+    border-radius: 0;
+    background-color: #3B3B3B;
+}
+
+.DeleteBut:hover {
+    background-color: red;
+}
+
+#info2 {
+    border-bottom: solid 1px seagreen;
+    margin-top: 1vh;
+}

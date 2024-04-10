@@ -19,7 +19,6 @@ export default function Petition({votedapp, signer}) {
     const viewContractAssets = useCallback(async () => {
         const newPetitions = [];
         const _petitionsMasLength = await votedapp.connect(signer).petitionsMasLength()
-        console.log(Number(_petitionsMasLength))
         for (let i = 0; i < Number(_petitionsMasLength); i++) {
           const petition = await votedapp.connect(signer).petitionsMas(i);
           newPetitions.push(petition);
@@ -30,7 +29,6 @@ export default function Petition({votedapp, signer}) {
       useEffect(() => {
         viewContractAssets();
       },[viewContractAssets])
-console.log(petitions)
 
     return(<>
     <div className="pets" >

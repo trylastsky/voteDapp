@@ -12,6 +12,7 @@ export default function Registration({votedapp,signer}) {
             window.location.reload()
         }
         catch(e) {
+            console.log(e);
             alert(e)
             onclick(window.location.reload())
         }
@@ -34,7 +35,7 @@ export default function Registration({votedapp,signer}) {
     <button className='RegButton' onClick={() => {
         if(!userName) {
             alert('введите имя')
-            onclick(window.location.reload());
+            return
         }
         else if(!userDescription) {
             alert("Введите описание, в дальнейшем изменение описания будет стоить газа!!")
