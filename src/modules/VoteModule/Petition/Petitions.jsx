@@ -31,6 +31,7 @@ export default function Petition({votedapp, signer}) {
       },[viewContractAssets])
 
     return(<>
+    {petitions.length == 0 && (<><h2>В данный момент нет петиций</h2></>)}
     <div className="pets" >
         {petitions.map((petition) => (<>
         
@@ -43,7 +44,6 @@ export default function Petition({votedapp, signer}) {
         </div>
     <button  className='PetBut' onClick={() => {writePetition(petition.id)}}>Подписать</button>
     <h2 id='candidatsH2'>Подписали: {petition.votes.toString()} </h2>
-            <p>id:{petition.id.toString()}</p>
     </div>
         </>))}
 

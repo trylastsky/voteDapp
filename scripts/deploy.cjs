@@ -34,7 +34,7 @@ async function main() {
 
   //add petitions
   for (let i = 0; i < petitions.length; i++) {
-    const transaction = await votedapp.connect(deployer).addPetition(
+    const transaction = await votedapp.connect(deployer).addPet(
       petitions[i].name,
       petitions[i].description,
       petitions[i].timeEnd,

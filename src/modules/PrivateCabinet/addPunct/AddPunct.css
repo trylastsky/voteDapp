@@ -1,0 +1,37 @@
+.boxInput {
+    border: 1px solid seagreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 100vh;
+}
+
+.input {
+    margin-top: 1vh;
+    display: flex;
+    min-width: 50vh;
+    min-height: 5vh;
+    background-color: #B3B3B3;
+    text-align: center;
+    font-size: 4vh;
+}
+
+
+.input:hover {
+    background-color: seagreen;
+    color: black;
+    border-color: black;
+}
+
+.niceBut {
+    min-height: 4vh;
+    min-width: 20vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    background-color:#B3B3B3;
+}
+
+.infoPack {
+    flex-direction: column;
+    align-items: center;
+}

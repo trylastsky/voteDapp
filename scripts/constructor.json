@@ -9,7 +9,7 @@
         {
             "name": "Голосование за лучшую работу",
             "description": "Голосуем за лучших конкурсантов WSR",
-            "timeToJoin": 3600,
+            "timeToJoin": 1,
             "timeEnd": 3600
         }
     ],

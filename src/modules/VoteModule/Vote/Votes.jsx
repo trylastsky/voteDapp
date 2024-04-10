@@ -8,6 +8,7 @@ export default function Vote({votedapp, signer}) {
     const [votes, setVotes] = useState([]);
     const [statusJoinButton, setStatusJoinButton] = useState(null);
 
+
     const viewContractAssets = useCallback(async () => {
       const newVotes = [];
       const _votesMasLength = await votedapp.connect(signer).votesMasLength();
@@ -30,6 +31,7 @@ export default function Vote({votedapp, signer}) {
 		})
     
     return(<>
+    {votes.length == 0 && (<><h2>В данный момент нет голосований</h2></>)}
     <div className='votes' key={'allVotes'}>
 
     {votes.map((vote) => (<>
@@ -52,10 +54,15 @@ export default function Vote({votedapp, signer}) {
   
       key={'vote' + vote.id + 'Candidats'}/>
     </div>
-    <p>id:{vote.id.toString()}</p>
-    {statusJoinButton === true && (<>
+    {statusJoinButton && (<>
       <button id='setCandidate' onClick={async () => {
-        const ts = await votedapp.connect(signer).addCandidate(vote.id)
+        try {
+          const ts = await votedapp.connect(signer).addCandidate(vote.id)
+        }
+        catch(e) {
+          console.log(e)
+          alert(e)
+        }
       }}>Стать Кандидатом</button>
     </>)}
     

@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import "./PrivateCabinet.css";
+import AddPunct from './addPunct/AddPunct'
 
 
 export default function PrivateCabinet({
@@ -14,6 +15,7 @@ export default function PrivateCabinet({
 	//массив петиций и голосований пользователя
 	const [userAddedVotes, setAddedVotes] = useState([]);
 	const [userAddedPetitions, setAddedPetitions] = useState([]);
+	const [toggleAddPunct, setToggleAddPunct] = useState(false);
 
 	const setStates = useCallback(async () => {
 		const newVotes = [];
@@ -43,8 +45,6 @@ export default function PrivateCabinet({
 		setAddedPetitions(newPetitions);
 	})
 
-
-
 		useEffect(() => {
 			setStates()
 		}, [])
@@ -54,6 +54,7 @@ export default function PrivateCabinet({
 		})
 	return (
 		<>
+		
 			<div className="PrivateCabinet">
 				<div className="infoContainerPrivateCab">
                     {/* по возможности добавить функционал смены аватара */}
@@ -82,11 +83,14 @@ export default function PrivateCabinet({
 									className="ChangeButtonPetitions"
 									onClick={() => {
 										setVoteType(false);
+										setToggleAddPunct(false);
 									}}
 								>
 									Петиции
 								</button>
 								<button className="ChangeButtonVotes" onClick={() => {
+									if (!toggleAddPunct) setToggleAddPunct(true);
+									else if (toggleAddPunct) setToggleAddPunct(false);
 									
 								}}>Добавить Голосование</button>
 							</>
@@ -96,48 +100,66 @@ export default function PrivateCabinet({
 									className="ChangeButtonVotes"
 									onClick={() => {
 										setVoteType(true);
+										setToggleAddPunct(false);
 									}}
 								>
 									Голосования
 								</button>
-								<button className="ChangeButtonPetitions">Добавить Петицию</button>
+								<button className="ChangeButtonPetitions" onClick={async() => {
+										if (!toggleAddPunct) setToggleAddPunct(true);
+										else if (toggleAddPunct) setToggleAddPunct(false);
+								}}>Добавить Петицию</button>
 							</>
 						)}
+						
 					</div>
+					{toggleAddPunct && (<>
+						<AddPunct votedapp={votedapp}
+					signer={signer}
+					voteType={voteType}
+					setTogglePop={setToggleAddPunct} />
+					
+					</>)}
+							
 					{voteType ? (<>
+						
 						<div className="myVotes">
 							{userAddedVotes.length == 0 && (<><p>Пока вы не добавили не одного голосования</p></>)}
+							
+							
 					{
 						userAddedVotes.map((vote,index) => (<>
-						
+						{toggleAddPunct == false && (<>
 							<div className="myVote" key={'myVote' + vote.id}>
 							<h3 id="info2">{vote.name}</h3>
-							<h1>{Number(index)}</h1>
 							<button className="DeleteBut" onClick={async () => {
 								await votedapp.connect(signer).delVote(index);
 							}}>Удалить</button>
 							</div>
-						
+							</>)}
 							
 						</>))
 					}
+							
 					</div>
 					
 					</>) : (<>
 					{/* Петиции */}
 						<div className="myVotes">
-							{userAddedPetitions.length == 0 && (<><h3>Пока вы не добавили не одной петиции</h3></>)}
+							{userAddedPetitions.length == 0 && (<><p>Пока вы не добавили не одной петиции</p></>)}
 					{
 						userAddedPetitions.map((pet) => (<>
+						{toggleAddPunct == false && (<>
 						
 							<div className="myVote" key={'myPet' + pet.id}>
 							<h3 id="info2">{pet.name}</h3>
-							<p>{pet.id}</p>
 							<button className="DeleteBut" onClick={async () => {
-								await votedapp.connect(signer).delVote(vote.id);
+								await votedapp.connect(signer).delPet(pet.id);
 							}}>Удалить</button>
 							</div>
 						
+						</>)}
+
 							
 						</>))
 					}
@@ -146,6 +168,4 @@ export default function PrivateCabinet({
 					</>)}
 				</div>
 			</div>
-		</>
-	);
-}
+		</>)}

@@ -22,8 +22,15 @@ export default function Candidate({votedapp,
       })
 
       const checkJoinStatus = useCallback(async (voteId) => {
-        const ts = await votedapp.connect(signer).checkTimeVote(voteId)
-        setStatusJoinButton(true)
+        const ts = await votedapp.connect(signer).checkTimeToJoin(voteId)
+        const statusCandidate = await votedapp.connect(signer).candidateStatusMap(signer);
+        if (statusCandidate) {
+            setStatusJoinButton(false);
+
+        } else {
+            setStatusJoinButton(ts)
+            console.log(ts)
+        }
       })
 
     useEffect(() => {
@@ -52,7 +59,6 @@ export default function Candidate({votedapp,
     <h2>Описание</h2>
     <h3>{candidate.user.description}</h3>
     <h4>Проголосовали: {Number(candidate.votes)}</h4>
-    <p>idCandidate: {Number(candidate.id)}</p>
     </div>
     </>))}
     </>)
