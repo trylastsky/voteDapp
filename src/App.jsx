@@ -47,7 +47,6 @@ export default function App() {
 				alert(e)
 			}
 		  }
-      window.ethereum.on('accountsChanged', () => {window.location.reload()})
 		useContract()
 	}, [signer,provider])
 

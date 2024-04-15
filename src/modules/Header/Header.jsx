@@ -30,7 +30,8 @@ export default function Header({
 			}
 			stateRegStatus();
 		}
-		window.ethereum.on('accountsChanged',onConnect);
+		if(window.ethereum) window.ethereum.on('accountsChanged',onConnect);
+		
 	},[signer])
 
 	const onConnect = useCallback(async () => {
@@ -42,7 +43,7 @@ export default function Header({
 		}
 		else {
 			alert('Please Install Metamask')
-			onclick(window.location.reload())
+			onclick(window.open('https://metamask.io/'))
 			let provider = ethers.getDefaultProvider()
 			setProvider(provider);
 			setSigner(null);
