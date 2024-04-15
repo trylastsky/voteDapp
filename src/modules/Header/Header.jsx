@@ -30,7 +30,7 @@ export default function Header({
 			}
 			stateRegStatus();
 		}
-		if(window.ethereum) window.ethereum.on('accountsChanged',onConnect);
+
 		
 	},[signer])
 
@@ -48,7 +48,7 @@ export default function Header({
 			setProvider(provider);
 			setSigner(null);
 		}
-
+		if(window.ethereum) window.ethereum.on('accountsChanged',() => onConnect());
 	  }
 	)
 

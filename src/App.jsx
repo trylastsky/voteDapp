@@ -19,7 +19,6 @@ import contractAddress from '../contractAddress.json'; //импорт voteDapp.t
 import './App.css';
 
 let votedapp = null; //начальная переменная для контракта
-
 export default function App() {
   //user useStates
   const [userAvatar, setUserAvatar] = useState(userAvatarDefault);
@@ -46,10 +45,12 @@ export default function App() {
 			  } catch(e) {
 				alert(e)
 			}
-		  }
+    }
 		useContract()
 	}, [signer,provider])
 
+
+  
 
 
   return (
