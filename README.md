@@ -32,4 +32,4 @@
 
 <p>Зарегистрированный пользователь address0<p/>
 
-######©Trylastsky voteDapp  patch /0.1\
+###### ©Trylastsky voteDapp  patch /0.1\
